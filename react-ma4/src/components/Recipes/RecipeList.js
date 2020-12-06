@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { BASE_URL } from "./Api";
-import RecipeItems from "./RecipeItems";
+import RecipeItem from "./RecipeItem";
+import SearchRecipe from "./SearchRecipe";
 
 export default function RecipeList() {
   const [recipe, setRecipe] = useState([]);
@@ -11,7 +12,10 @@ export default function RecipeList() {
   useEffect(() => {
     fetch(BASE_URL)
       .then((response) => response.json())
-      .then((json) => setRecipe(json.results))
+      .then((json) => {
+        setRecipe(json.results);
+        setFilteredRecipes(json.results);
+      })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   }, []);
@@ -20,7 +24,7 @@ export default function RecipeList() {
     const searchValue = e.target.value.toLowerCase();
 
     const filterArray = recipe.filter(function (char) {
-      const lowerCaseName = char.name.toLowerCase();
+      const lowerCaseName = char.title.toLowerCase();
 
       if (lowerCaseName.startsWith(searchValue)) {
         return true;
@@ -34,31 +38,20 @@ export default function RecipeList() {
   if (loading) {
     return <Spinner animation="border" className="spinner" />;
   }
+
   return (
     <>
-      <Search handleSearch={filterRecipe} />
+      <SearchRecipe handleSearch={filterRecipe} />
       <div>
-        {filteredRecipes.map((recipe) => {
-          const { title, image } = recipe;
-          return <RecipeItems title={title} image={image} />;
-        })}
-      </div>
-    </>
-  );
-  /*return (
-    <>
-      <div>
-        {recipe.map((recipe) => (
-          <>
-            <p key={recipe.title}>{recipe.title}</p>
-            <img
-              key={recipe.thumbnail}
-              src={recipe.thumbnail}
-              alt={recipe.href}
-            />
-          </>
+        {filteredRecipes.map(({ title, thumbnail, ingredients }) => (
+          <RecipeItem
+            key={title}
+            title={title}
+            thumbnail={thumbnail}
+            ingredients={ingredients}
+          />
         ))}
       </div>
     </>
-  );*/
+  );
 }
