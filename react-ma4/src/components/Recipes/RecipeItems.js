@@ -1,28 +1,14 @@
-import React, {
-    useState,
-    useEffect
-} from "react";
-import {
-    BASE_URL
-} from "../Api";
+import React from 'react';
+import {setRecipes} from './RecipeList';
 
-
-export default function RecipeItems() {
-    const [recipes, setRecipes] = useState([]);
-
-    useEffect(() => {
-        fetch(BASE_URL)
-            .then(response => response.json())
-            .then(json => setRecipes(json.results))
-            .catch(error => console.log(error));
-    }, []);
-
+function RecipeItems() {
     return (
         <ul>
-            {recipes.map(recipes => (
-                <li key={recipes.title}>{recipes.title}</li>
-            ))}
-        </ul>
-    );
-
+        {recipes.map(recipes => (
+            <li key={recipes.title}>{recipes.title}</li>
+        ))}
+    </ul>
+    )
 }
+
+export default RecipeItems; 

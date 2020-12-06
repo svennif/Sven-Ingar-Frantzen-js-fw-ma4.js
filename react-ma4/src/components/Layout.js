@@ -1,6 +1,6 @@
 import React from 'react';
-import Heading from './components/Heading/Heading';
-import RecipeItems from './components/Recipes/RecipeItems';
+import Heading from './Heading/Heading';
+import RecipeItems from './Recipes/RecipeItems';
 
 function Layout() {
     return (

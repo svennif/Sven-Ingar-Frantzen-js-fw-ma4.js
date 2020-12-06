@@ -1,5 +1,4 @@
-// import RecipeList from "./components/RecipeList";
-import Layout from "./Layout";
+import Layout from "./components/Layout";
 
 function App() {
   return ( 
